@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	dotenv"github.com/joho/godotenv"
+	"github.com/gin-contrib/cors"
 
 	"backend/helpers"
 	"backend/middleware"
@@ -20,6 +21,8 @@ func main() {
 	helpers.MakeMigrations()
 
 	r := gin.Default()
+	r.Use(cors.Default())
+
 	r.POST("/signup", users.Signup)
 	r.POST("/signin", users.Signin)
 	r.POST("/post", middleware.AuthMiddleware, posts.CreatePost)
