@@ -29,6 +29,7 @@ func main() {
 	r.GET("/post", posts.GetPosts)
 	r.GET("/comments", posts.GetPostComments)
 	r.GET("/users", users.GetUser)
+	r.GET("/postlikes", posts.GetPostLikes)
 
 	fmt.Printf("serving on http://localhost:%s\n", port)
 	r.Run()

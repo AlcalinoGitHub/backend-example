@@ -41,3 +41,23 @@ func GetPostComments(c *gin.Context) {
 	c.JSON(http.StatusOK, comments)
 
 }
+
+func GetPostLikes(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {c.JSON(http.StatusBadRequest, gin.H{"error":"An id field is needed (url/postlikes?id=10) for example"}); return}
+	db, dbError := helpers.OpenDb()
+	if dbError != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": dbError.Error()})
+		return
+	}
+
+	var likes []models.Like
+	result := db.Table("likes").Where("under = ?", id).Find(&likes)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, likes)
+
+}
