@@ -21,7 +21,14 @@ func main() {
 	helpers.MakeMigrations()
 
 	r := gin.Default()
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowAllOrigins: true,
+		AllowMethods: []string{"*"},
+		AllowHeaders: []string{"*"},
+		ExposeHeaders: []string{"*"},
+		AllowWildcard: true,
+		AllowCredentials: true,
+	}))
 
 	r.POST("/signup", users.Signup)
 	r.POST("/signin", users.Signin)
